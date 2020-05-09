@@ -11,7 +11,10 @@
 # production
 /build
 
-# misc
+# 
+/public/index.html
+/src/utils/config.js
+
 .DS_Store
 .env.local
 .env.development.local
