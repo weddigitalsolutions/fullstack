@@ -7,8 +7,9 @@ import {
 } from "react-router-dom";
 
 import Users from "./user/pages/Users";
-import NewPlace from "./places/pages/NewPlace";
+import NewPlace from "./places/pages/NewPlace.jsx";
 import MainNavigation from "./shared/components/Navigation/MainNavigation.component";
+import UsersPlaces from "./user/pages/UsersPlaces";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <main>
         <Switch>
           <Route path="/" exact component={Users} />
+          <Route path="/:userId/places" exact component={UsersPlaces} />
           <Route path="/places/new" component={NewPlace} />
           <Redirect to="/" />
         </Switch>
