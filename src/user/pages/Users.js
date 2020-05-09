@@ -4,9 +4,9 @@ import UserList from "../components/UserList.component";
 const Users = () => {
   const USERS = [
     {
-      id: "id",
+      id: "u1",
       name: "Wilson Filho",
-      image: "https://source.unsplash.com/1600x900/?nature,water",
+      image: "https://source.unsplash.com/1600x900/?people",
       places: 3,
     },
   ];
