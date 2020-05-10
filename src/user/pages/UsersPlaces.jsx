@@ -18,7 +18,7 @@ const DUMMY_PLACES = [
   },
   {
     id: "p2",
-    title: "Empire State Building",
+    title: "Emp. State Building",
     imageUrl:
       "https://dicasnovayork.com.br/wp-content/uploads/2016/02/empire_header1-1000x700.jpg",
     address: "20 W 34th St, new York, NY 10001",
