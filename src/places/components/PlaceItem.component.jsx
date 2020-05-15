@@ -45,7 +45,7 @@ const PlaceItem = (props) => {
 
   return (
     <React.Fragment>
-      <ErrorModal onClear={clearError} />
+      <ErrorModal onClear={clearError} error={error} />
       <Modal
         show={showMap}
         onCancel={closeMapHandler}

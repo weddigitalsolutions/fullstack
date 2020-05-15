@@ -16,13 +16,6 @@ const inputReducer = (state, action) => {
         ...state,
         isTouched: true,
       };
-    // Teste para limpar form TODO: tirar se não funcionar
-    case "CLEAR":
-      return {
-        value: "",
-        isTouched: false,
-      };
-    // ------
     default:
       return state;
   }
@@ -35,7 +28,7 @@ const Input = (props) => {
     isValid: props.initialValid || false,
   });
 
-  const { id, onInput, clear } = props;
+  const { id, onInput } = props;
   const { value, isValid } = inputState;
 
   useEffect(() => {
