@@ -1,39 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import PlaceList from "../../places/components/PlaceList.component";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import Card from "../../shared/components/UIElements/Card.component";
+import Button from "../../shared/components/FormElements/Button.compoenent";
 
-const DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Empire State Building",
-    imageUrl:
-      "https://dicasnovayork.com.br/wp-content/uploads/2016/02/empire_header1-1000x700.jpg",
-    address: "20 W 34th St, new York, NY 10001",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878584,
-    },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Emp. State Building",
-    imageUrl:
-      "https://dicasnovayork.com.br/wp-content/uploads/2016/02/empire_header1-1000x700.jpg",
-    address: "20 W 34th St, new York, NY 10001",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878584,
-    },
-    creator: "u2",
-  },
-];
 const UsersPlaces = () => {
+  const [loadedPlaces, setLoadedPlaces] = useState();
+  const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const userId = useParams().userId;
 
-  const loadedPlaces = DUMMY_PLACES.filter((place) => place.creator === userId);
-  return <PlaceList items={loadedPlaces} />;
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/places/user/${userId}`
+        );
+        setLoadedPlaces(responseData.places);
+      } catch (err) {}
+    };
+
+    fetchPlaces();
+  }, [sendRequest, userId]);
+
+  const placeDeletedHandler = (deletedPlaceId) => {
+    setLoadedPlaces((prevPlaces) =>
+      prevPlaces.filter((place) => place.id !== deletedPlaceId)
+    );
+  };
+
+  if (!loadedPlaces && !isLoading) {
+    return (
+      <div className="center">
+        <Card>
+          <h2>No Places Founded!</h2>
+          <Button to="/places/new">Share One</Button>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <React.Fragment>
+      <ErrorModal error={error} onCancel={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
+      {!isLoading && loadedPlaces && (
+        <PlaceList items={loadedPlaces} onDelete={placeDeletedHandler} />
+      )}
+    </React.Fragment>
+  );
 };
 
 export default UsersPlaces;
