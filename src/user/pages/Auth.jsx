@@ -22,7 +22,7 @@ const Auth = (props) => {
 
   const auth = useContext(AuthContext);
 
-  const [formState, inputHandler, setFormData, clearHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
         value: "",
@@ -38,7 +38,6 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
     let body;
     if (isLoginMode) {
       body = JSON.stringify({
@@ -53,19 +52,16 @@ const Auth = (props) => {
           body,
           {
             "Content-Type": "application/json",
+          },
+          {
+            Authorization: "Bearer " + auth.token,
           }
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {
         console.log(err);
       }
     } else {
-      /* body = JSON.stringify({
-        name: formState.inputs.name.value,
-        email: formState.inputs.email.value,
-        password: formState.inputs.password.value,
-      }); */
-
       try {
         const formData = new FormData();
         formData.append("email", formState.inputs.email.value);
@@ -75,9 +71,12 @@ const Auth = (props) => {
         const responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
-          formData
+          formData,
+          {
+            Authorization: "Bearer " + auth.token,
+          }
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {
         console.log(err);
       }

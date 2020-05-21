@@ -7,11 +7,11 @@ import "./UserList.styles.css";
 const UsersList = (props) => {
   if (props.items.length === 0) {
     return (
-      <Card>
-        <div className="center">
+      <div className="center">
+        <Card className="center" style={{ width: 50 + "%" }}>
           <h2>No users found.</h2>
-        </div>
-      </Card>
+        </Card>
+      </div>
     );
   }
 

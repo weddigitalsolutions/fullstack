@@ -65,6 +65,8 @@ const UpdatePlace = (props) => {
 
   const updatePlaceSubmitHandler = async (event) => {
     event.preventDefault();
+    console.log(formState.inputs.title.value);
+    console.log(formState.inputs.description.value);
     try {
       await sendRequest(
         `http://localhost:5000/api/places/${placeId}`,
@@ -73,7 +75,10 @@ const UpdatePlace = (props) => {
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
         }),
-        { "Content-Type": "application/json" }
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
+        }
       );
       history.push("/" + auth.userId + "/places");
     } catch (err) {}
