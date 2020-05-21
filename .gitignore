@@ -15,6 +15,7 @@
 /public/index.html
 /src/utils/config.js
 
+.env
 .DS_Store
 .env.local
 .env.development.local
